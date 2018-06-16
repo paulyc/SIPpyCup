@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * sdp/package.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -24,14 +24,10 @@
 
 package io.github.paulyc.sippycup
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+package object sdp {
 
-    val app = new Application(args)
-    app.start()
-    app.join()
+  trait Config {
 
-    println("Bye SIPpyCup!")
   }
+
 }

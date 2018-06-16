@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * TrunkSubscriber.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -22,16 +22,14 @@
   * SOFTWARE.
   */
 
-package io.github.paulyc.sippycup
+package io.github.paulyc.sippycup.sip
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+import akka.actor.{Actor, ActorLogging, ActorRef}
 
-    val app = new Application(args)
-    app.start()
-    app.join()
+class TrunkSubscriber(dispatcher: ActorRef) extends Actor with ActorLogging {
 
-    println("Bye SIPpyCup!")
+  def receive: Receive = {
+    case _ =>
   }
+
 }

@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * Application.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -24,14 +24,33 @@
 
 package io.github.paulyc.sippycup
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 
-    val app = new Application(args)
-    app.start()
-    app.join()
+class Application(val args: Array[String]) extends Thread {
+  val system = ActorSystem("sippycup-system")
 
-    println("Bye SIPpyCup!")
+  override def run(): Unit = {
+    try {
+      val supervisor = system.actorOf(SippySupervisor.props(this), "sippy-supervisor")
+
+    } finally {
+      system.terminate()
+    }
   }
+
+  // orderly polite shutdown of the system
+  def handleShutdown(): Unit = {
+
+  }
+
+  // immediately terminate the system but at least wait for it
+  // to finish terminating before exiting the process
+  def handleTerminate(): Unit = {
+    system.terminate()
+  }
+
+  def handleKill(): Unit = {
+    system.terminate()
+  }
+
 }

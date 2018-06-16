@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * Console.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -24,14 +24,42 @@
 
 package io.github.paulyc.sippycup
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+import java.nio.channels.ClosedByInterruptException
+import java.util.concurrent.atomic.AtomicBoolean
 
-    val app = new Application(args)
-    app.start()
-    app.join()
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import io.github.paulyc.sippycup.Console.{ConsoleMessage, Die}
 
-    println("Bye SIPpyCup!")
+import scala.io.StdIn
+
+object Console {
+  def props(controller: ActorRef) = Props(new Console(controller))
+
+  final case class ConsoleMessage(msg: String)
+  final case class Die()
+}
+
+class Console(controller: ActorRef) extends Actor with ActorLogging {
+  private val running = new AtomicBoolean(true)
+  private val readThread = new java.lang.Thread(() => {
+    while (running.get()) {
+      try {
+        self ! StdIn.readLine("SIPpyCup> ")
+      } catch {
+        case ex : ClosedByInterruptException =>
+        case _ : Throwable =>
+      }
+    }
+  })
+
+  readThread.start()
+
+  def receive : Receive = {
+    case m: ConsoleMessage => controller.forward(m)
+    case _: Die =>
+      running.compareAndSet(true, false)
+      readThread.interrupt()
+      readThread.join()
   }
+
 }

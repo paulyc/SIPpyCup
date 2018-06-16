@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * rtp/package.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -24,14 +24,12 @@
 
 package io.github.paulyc.sippycup
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+package object rtp {
 
-    val app = new Application(args)
-    app.start()
-    app.join()
-
-    println("Bye SIPpyCup!")
+  trait EndpointConfig {
+    def host: String
+    def rtpPort: Int
+    def rtcpPort: Int
   }
+
 }

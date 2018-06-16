@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * SippySupervisor.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -20,18 +20,19 @@
   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
-  */
+  */package io.github.paulyc.sippycup
 
-package io.github.paulyc.sippycup
+import akka.actor.{Actor, ActorLogging, Props}
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+object SippySupervisor {
+  def props(app: Application) = Props(new SippySupervisor(app))
+}
 
-    val app = new Application(args)
-    app.start()
-    app.join()
+class SippySupervisor(app: Application) extends Actor with ActorLogging {
+  override def preStart() : Unit = log.info("SIPpyCup starting")
+  override def postStop() : Unit = log.info("SIPpyCup stopped")
+  override def receive: Receive = Actor.emptyBehavior
 
-    println("Bye SIPpyCup!")
-  }
+  private val controller = context.actorOf(LogicController.props())
+  private val console = context.actorOf(Console.props(controller))
 }

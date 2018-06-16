@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * PhoneManager.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -22,16 +22,13 @@
   * SOFTWARE.
   */
 
-package io.github.paulyc.sippycup
+package io.github.paulyc.sippycup.sip
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+import akka.actor.Actor
 
-    val app = new Application(args)
-    app.start()
-    app.join()
-
-    println("Bye SIPpyCup!")
+// Manages our "SIP Termination Points" aka phones
+class PhoneManager extends Actor {
+  def receive : Receive = {
+    case _ =>
   }
 }

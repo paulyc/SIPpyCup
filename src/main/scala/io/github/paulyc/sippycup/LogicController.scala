@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * LogicController.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -24,14 +24,20 @@
 
 package io.github.paulyc.sippycup
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+import akka.actor.{Actor, ActorLogging, Props}
+import io.github.paulyc.sippycup.Console.ConsoleMessage
 
-    val app = new Application(args)
-    app.start()
-    app.join()
+object LogicController {
+  def props() = Props(new LogicController)
+}
+class LogicController extends Actor with ActorLogging {
 
-    println("Bye SIPpyCup!")
+  // spin up the twilio subscriber
+  // spin up the endpoint listener
+
+  def receive : Receive = {
+    case ConsoleMessage(msg) => log.info("Got console message", msg)
+    case _ =>
   }
+
 }

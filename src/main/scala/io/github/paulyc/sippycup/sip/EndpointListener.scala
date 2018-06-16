@@ -1,5 +1,5 @@
 /**
-  * Main.scala
+  * EndpointListener.scala
   *
   * Copyright (C) 2018 Paul Ciarlo <paul.ciarlo@gmail.com>
   *
@@ -22,16 +22,8 @@
   * SOFTWARE.
   */
 
-package io.github.paulyc.sippycup
+package io.github.paulyc.sippycup.sip
 
-object Main {
-  def main(args: Array[String]) {
-    println("Hello SIPpyCup!")
+class EndpointListener {
 
-    val app = new Application(args)
-    app.start()
-    app.join()
-
-    println("Bye SIPpyCup!")
-  }
 }
